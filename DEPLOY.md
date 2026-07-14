@@ -1,37 +1,24 @@
 # Deployment (free)
 
-This app can run **for free** using:
+Hugging Face **Docker** Spaces are paid. Use the **free split**:
 
-| Platform | RAM | Best for | Guide |
-|----------|-----|----------|--------|
-| **Hugging Face Spaces** | 16 GB | Full app + PDF/RAG | [deploy/HUGGINGFACE.md](deploy/HUGGINGFACE.md) |
-| **Render** | 512 MB | Chat + search only | [deploy/RENDER.md](deploy/RENDER.md) |
+| Part | Platform | Guide |
+|------|----------|--------|
+| Frontend (UI) | Hugging Face **Static** Space | [deploy/HUGGINGFACE.md](deploy/HUGGINGFACE.md) |
+| Backend (API) | Render free | [deploy/HUGGINGFACE.md](deploy/HUGGINGFACE.md) |
 
-Both use the root `Dockerfile` (FastAPI backend + built React UI in one container).
+**Order:** Deploy Render backend first → build static UI → push to HF Static Space.
 
-## Quick start (GitHub → Render free)
+Single-service option (Render only, UI + API together): [deploy/RENDER.md](deploy/RENDER.md) — uses full `Dockerfile`, 512 MB RAM limit.
 
-```powershell
-cd "d:\Projects\ai research assistant"
-git init
-git add .
-git commit -m "Prepare for free deployment"
-# Create a new empty repo on GitHub, then:
-git remote add origin https://github.com/YOUR_USER/ai-research-assistant.git
-git branch -M main
-git push -u origin main
-```
-
-Then follow [deploy/RENDER.md](deploy/RENDER.md) or [deploy/HUGGINGFACE.md](deploy/HUGGINGFACE.md).
-
-## Required secrets (both platforms)
+## Required secrets (Render backend)
 
 | Variable | Value |
 |----------|--------|
 | `GROQ_API_KEY` | From [console.groq.com/keys](https://console.groq.com/keys) |
 | `LLM_PROVIDER` | `groq` |
+| `FRONTEND_URL` | Your Hugging Face Static Space URL |
 | `JWT_SECRET` | Random string (Render can auto-generate) |
-| `SERVE_FRONTEND` | `true` |
-| `FRONTEND_URL` | Your public app URL (set after first deploy) |
+| `SERVE_FRONTEND` | `false` (set in `render.yaml`) |
 
 Never commit `.env` — it is gitignored.

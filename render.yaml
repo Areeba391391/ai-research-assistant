@@ -6,11 +6,11 @@ services:
     name: ai-research-assistant
     runtime: docker
     plan: free
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./Dockerfile.api
     healthCheckPath: /api/health
     envVars:
       - key: SERVE_FRONTEND
-        value: "true"
+        value: "false"
       - key: LLM_PROVIDER
         value: groq
       - key: GROQ_MODEL
